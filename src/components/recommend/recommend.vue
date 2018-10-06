@@ -28,6 +28,9 @@
                     </ul>
                 </div>
             </div>
+            <div class="loading-container" v-show="!discList.length">
+                <loading></loading>
+            </div>
         </scroll>
     </div>
 </template>
@@ -35,6 +38,7 @@
 <script type="text/ecmascript-6">
     import Scroll from 'base/scroll/scroll'
     import Silder from 'base/silder/silder'
+    import Loading from 'base/loading/loading'
 
     import { getRecommend, getDiscList } from 'api/recommend'
     import { ERR_OK } from 'api/config'
@@ -48,7 +52,9 @@
         },
         created() {
             this._getRecommend()
-            this._getDiscList()
+            setTimeout(() => {
+                this._getDiscList()
+            }, 1000)
         },
         methods: {
             _getRecommend() {
@@ -74,7 +80,8 @@
         },
         components: {
             Scroll,
-            Silder
+            Silder,
+            Loading
         }
     }
 </script>
@@ -131,10 +138,10 @@
               color: $color-text
             .desc
               color: $color-text-d
-      .loading-container
-        position: absolute
-        width: 100%
-        top: 50%
-        transform: translateY(-50%)
+        .loading-container
+            position: absolute
+            width: 100%
+            top: 50%
+            transform: translateY(-50%)
 </style>
 
