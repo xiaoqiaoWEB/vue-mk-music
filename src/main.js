@@ -11,6 +11,7 @@ import VueLazyload from 'vue-lazyload'
 
 import 'common/stylus/index.styl'
 
+/* 300mms延迟 */
 fastClick.attach(document.body)
 Vue.use(VueLazyload, {
   loading: require('common/image/default.png')

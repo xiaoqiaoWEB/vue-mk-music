@@ -25,6 +25,21 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 > 01day
 
 ``` bash
-# sourcetree  test
+# 利用 vue-cli 安装项目 - Runtime-only  省去变异 - 文件大小 变小了
+
+# stylus css 变异
+https://www.zhangxinxu.com/jq/stylus/
+
+stylus stylus-loader
+
+# babel-runtime 
+对es6 语法转义
+
+# fastclick
+手机端的 点击 300ms 的延迟
+
+# babel-polyfill
+ea6 api 的转译
+
 
 
