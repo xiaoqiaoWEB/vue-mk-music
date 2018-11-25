@@ -1,4 +1,4 @@
-import originJsonp from 'jsonp'
+import originJsonp from 'jsonp' // 原始的jsonp 
 
 export default function jsonp(url, data, option) {
    url += (url.indexOf('?') < 0 ? '?' : '&') + parme(data)

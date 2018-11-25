@@ -1,154 +1,160 @@
 <template>
-    <div class="silder" ref="silder">
-        <div class="slider-group" ref="sliderGroup">
-            <slot>
-            </slot>
-        </div>
-        <div class="dots">
-            <span class="dot" v-for="(item,index) in dots" :key="index" :class="{active:  currentPageIndex === index}"></span>
-        </div>
+  <div class="slider" ref="slider">
+    <div class="slider-group" ref="sliderGroup">
+      <slot>
+      </slot>
     </div>
+    <div class="dots">
+      <span class="dot" :class="{active: currentPageIndex === index }" v-for="(item, index) in dots" :key="index"></span>
+    </div>
+  </div>
 </template>
 
 <script type="text/ecmascript-6">
-import {addClass} from 'common/js/dom'
-import BScroll from 'better-scroll'
-export default {
-    data() {
-        return {
-            dots: [],
-            currentPageIndex: 0
-        }
-    },
+  import {addClass} from 'common/js/dom'
+  import BScroll from 'better-scroll'
+
+  export default {
+    name: 'slider',
     props: {
-        loop: {
-            type: Boolean,
-            default: true
-        },
-        autoplay: {
-            type: Boolean,
-            default: true
-        },
-        interval: {
-            type: Number,
-            default: 4000
-        }
+      loop: {
+        type: Boolean,
+        default: true
+      },
+      autoPlay: {
+        type: Boolean,
+        default: true
+      },
+      interval: {
+        type: Number,
+        default: 4000
+      }
+    },
+    data() {
+      return {
+        dots: [],
+        currentPageIndex: 0
+      }
     },
     mounted() {
-        setTimeout(() => {
-            this._setSilderWidth() 
-            this._initDots()
-            this._initSilder()
-           
-            if (this.autoplay) {
-                this._play()        
-            }
-        }, 20)
+      setTimeout(() => {
+        this._setSliderWidth()
+        this._initDots()
+        this._initSlider()
 
-        window.addEventListener('resize', () => {
-            if (!this.silder || !this.silder.enabled) {
-                return
+        if (this.autoPlay) {
+          this._play()
+        }
+      }, 20)
+
+      window.addEventListener('resize', () => {
+        if (!this.slider || !this.slider.enabled) {
+          return
+        }
+        clearTimeout(this.resizeTimer)
+        this.resizeTimer = setTimeout(() => {
+          if (this.slider.isInTransition) {
+            this._onScrollEnd()
+          } else {
+            if (this.autoPlay) {
+              this._play()
             }
-            clearTimeout(this.resizetimer)
-            this.resizetimer = setTimeout(() => {
-                 if (this.slider.isInTransition) {
-                    this._onScrollEnd()
-                } else {
-                    if (this.autoPlay) {
-                    this._play()
-                    }
-                }
-                this.refresh()        
-            }, 60)
-        })
+          }
+          this.refresh()
+        }, 60)
+      })
     },
     activated() {
-      this.silder.enable()
-      let pageIndex = this.silder.getCurrentPage().pageX
-      this.silder.goToPage(pageIndex, 0, 0)
+      this.slider.enable()
+      let pageIndex = this.slider.getCurrentPage().pageX
+      this.slider.goToPage(pageIndex, 0, 0)
       this.currentPageIndex = pageIndex
       if (this.autoPlay) {
         this._play()
       }
     },
     deactivated() {
-      this.silder.disable()
+      this.slider.disable()
       clearTimeout(this.timer)
     },
     beforeDestroy() {
-      this.silder.disable()
+      this.slider.disable()
       clearTimeout(this.timer)
     },
     methods: {
-        refresh() {
-            if (this.silder) {
-                this._setSilderWidth() 
-                this.silder.refresh()
-            }
-        },
-        _setSilderWidth(isResize) {
-            this.children = this.$refs.sliderGroup.children
-            let width = 0
-            let silderWidth = this.$refs.silder.clientWidth
-            for (let i = 0; i < this.children.length; i++) {
-                const element = this.children[i]
-                addClass(element, 'slider-item')
-
-                element.style.width = silderWidth + 'px'
-                width += silderWidth
-            }
-            if (this.loop && !isResize) {
-                width += 2 * silderWidth
-            }
-            this.$refs.sliderGroup.style.width = width + 'px'
-        },
-        _initSilder() {
-            this.silder = new BScroll(this.$refs.silder, {
-                scrollX: true,
-                scrollY: false,
-                momentum: false,
-                snap: {
-                    loop: this.loop,
-                    threshold: 0.3,
-                    speed: 400
-                }
-            })
-
-            this.silder.on('scrollEnd', this._onScrollEnd)
-            this.silder.on('touchend', () => {
-                if (this.autoplay) {
-                    this._play()        
-                }
-            })
-            this.silder.on('beforeScrollStart', () => {
-                if (this.autoPlay) {
-                    clearTimeout(this.timer)
-                }
-            })
-        },
-        _initDots() {
-            this.dots = new Array(this.children.length)
-        },
-        _play() {
-            clearTimeout(this.timer)
-            this.timer = setTimeout(() => {
-                this.silder.next()
-            }, this.interval)
-        },
-        _onScrollEnd() {
-            this.currentPageIndex = this.silder.getCurrentPage().pageX
-            if (this.autoplay) {
-                this._play()        
-            }
+      refresh() {
+        if (this.slider) {
+          this._setSliderWidth(true)
+          this.slider.refresh()
         }
+      },
+      _setSliderWidth(isResize) {
+        this.children = this.$refs.sliderGroup.children
+
+        let width = 0
+        let sliderWidth = this.$refs.slider.clientWidth
+        for (let i = 0; i < this.children.length; i++) {
+          let child = this.children[i]
+          addClass(child, 'slider-item')
+
+          child.style.width = sliderWidth + 'px'
+          width += sliderWidth
+        }
+        if (this.loop && !isResize) {
+          width += 2 * sliderWidth
+        }
+        this.$refs.sliderGroup.style.width = width + 'px'
+      },
+      _initSlider() {
+        this.slider = new BScroll(this.$refs.slider, {
+          scrollX: true,
+          scrollY: false,
+          momentum: false,
+          snap: {
+            loop: this.loop,
+            threshold: 0.3,
+            speed: 400
+          }
+        })
+
+        this.slider.on('scrollEnd', this._onScrollEnd)
+
+        this.slider.on('touchend', () => {
+          if (this.autoPlay) {
+            this._play()
+          }
+        })
+
+        this.slider.on('beforeScrollStart', () => {
+          if (this.autoPlay) {
+            clearTimeout(this.timer)
+          }
+        })
+      },
+      _onScrollEnd() {
+        let pageIndex = this.slider.getCurrentPage().pageX
+        this.currentPageIndex = pageIndex
+        if (this.autoPlay) {
+          this._play()
+        }
+      },
+      _initDots() {
+        this.dots = new Array(this.children.length)
+      },
+      _play() {
+        clearTimeout(this.timer)
+        this.timer = setTimeout(() => {
+          this.slider.next()
+        }, this.interval)
+      }
     }
-}
+  }
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
   @import "~common/stylus/variable"
 
-  .silder
+  .slider
     min-height: 1px
     .slider-group
       position: relative
@@ -181,9 +187,9 @@ export default {
         width: 8px
         height: 8px
         border-radius: 50%
-        background: #dedede
+        background: $color-text-l
         &.active
           width: 20px
           border-radius: 5px
-          background: #000
+          background: $color-text-ll
 </style>
