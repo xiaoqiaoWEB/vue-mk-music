@@ -28,7 +28,7 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 # 利用 vue-cli 安装项目 - Runtime-only  省去变异 - 文件大小 变小了
 
 # stylus css 变异
-https://www.zhangxinxu.com/jq/stylus/
+(https://www.zhangxinxu.com/jq/stylus/)
 
 stylus stylus-loader
 
@@ -45,7 +45,7 @@ ea6 api 的转译
 
 #slider 
 better-scroll
-https://ustbhuangyi.github.io/better-scroll/doc/zh-hans/#better-scroll%20%E6%98%AF%E4%BB%80%E4%B9%88
+(https://ustbhuangyi.github.io/better-scroll/doc/zh-hans/#better-scroll%20%E6%98%AF%E4%BB%80%E4%B9%88)
 
 
 
