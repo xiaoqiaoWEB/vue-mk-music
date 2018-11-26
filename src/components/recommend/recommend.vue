@@ -7,7 +7,7 @@
                         <silder ref="silder">
                             <div v-for="(item,index) in recommends" :key="index">
                                 <a :href="item.linkUrl">
-                                    <img :src="item.picUrl" />
+                                    <img :src="item.picUrl" class="needclick" />
                                 </a>
                             </div>
                         </silder>
@@ -74,6 +74,7 @@
             imgLoad() {
                 if (!this.imgChecked) {
                     this.imgChecked = true
+                    // 图片加载完成 重新计算 scroll 高度
                     this.$refs.scroll.refresh()
                 }
             }
@@ -119,6 +120,7 @@
         .item
           display: flex
           box-sizing: border-box
+          // Y轴方向才居中对齐 
           align-items: center
           padding: 0 20px 20px 20px
           .icon
@@ -127,7 +129,9 @@
             padding-right: 20px
           .text
             display: flex
+            // 设置 Y轴 为主轴
             flex-direction: column
+            // 元素在主轴中间,富裕空间在主轴两侧
             justify-content: center
             flex: 1
             line-height: 20px

@@ -31,7 +31,9 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       app.get('/api/getDiscList', function (req, res) {
         const url = 'https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg'
         axios.get(url, {
+          // 模拟请求头
           headers: {
+            // 来源
             referer: 'https://c.y.qq.com/',
             host: 'c.y.qq.com'
           },
