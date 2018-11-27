@@ -1,11 +1,14 @@
 <template>
-    <div>siger</div>
+    <div class="singer">
+        <list-view :data="singers"></list-view>
+    </div>
 </template>
 
 <script type="text/ecmascript-6">
 import {getSingerList} from 'api/singer'
 import {ERR_OK} from 'api/config'
 import Singer from 'common/js/singer'
+import ListView from 'base/listview/index.vue'
 
 const HOT_SINGER_LEN = 10
 const HOT_NAME = '热门'
@@ -23,14 +26,16 @@ export default {
         _getSingerList() {
             getSingerList().then((res) => {
                 if (res.code === ERR_OK) {
-                    console.log(res.data.list)
-                    console.log(this._normalizeSinger(res.data.list))
+                    this.singers = this._normalizeSinger(res.data.list)
+                     console.info(this._normalizeSinger(res.data.list))
                 }
             })
         },
+        // 规范数据
         _normalizeSinger(list) {
             let map = {
-                hot: {
+                // 热门 数据
+                hot: { 
                     title: HOT_NAME,
                     items: []
                 }
@@ -70,11 +75,18 @@ export default {
             })
             return hot.concat(ret)
         }
+    },
+    components: {
+        ListView
     }
 }
 </script>
 
 <style lang="stylus" scoped>
-
+.singer
+    position fixed
+    top 88px
+    bottom 0
+    width 100%
 </style>
 
