@@ -11,7 +11,10 @@
                 </ul>
             </li>
         </ul>
-        <div class="list-shortcut">
+        <div 
+            class="list-shortcut"
+            @touchstart="onShortcutTouchStart"
+        >
             <ul>
                 <li class="item" v-for="(item, index) in shortcutList" :key="index">
                     {{item}}
@@ -34,6 +37,11 @@ export default {
             return this.data.map((item) => {
                 return item.title.substr(0, 1)
             })
+        }
+    },
+    methods: {
+        onShortcutTouchStart(e) {
+            console.log(e.target)
         }
     },
     components: {
