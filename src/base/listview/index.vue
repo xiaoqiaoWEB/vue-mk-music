@@ -1,7 +1,7 @@
 <template>
-    <scroll :data="data" class="listview">
+    <scroll :data="data" class="listview" ref="listview">
         <ul>
-            <li v-for="(group,index) in data" :key="index" class="list-group">
+            <li v-for="(group,index) in data" :key="index" class="list-group" ref="listGroup">
                 <h2 class="list-group-title">{{group.title}}</h2>
                 <ul>
                     <li class="list-group-item" v-for="(item,index) in group.items" :key="index">
@@ -23,8 +23,9 @@
         </div>
     </scroll>
 </template>
-<script>
+<script type="text/ecmascript-6">
 import Scroll from 'base/scroll/scroll.vue'
+import {getDate} from 'common/js/dom.js'
 export default {
     props: {
         data: {
@@ -41,7 +42,9 @@ export default {
     },
     methods: {
         onShortcutTouchStart(e) {
-            console.log(e.target)
+            let anchorIndex = getDate(e.target, 'index')
+            console.log(anchorIndex)
+            this.$refs.listview.scrollToElement(this.$refs.listGroup[anchorIndex], 0)
         }
     },
     components: {
