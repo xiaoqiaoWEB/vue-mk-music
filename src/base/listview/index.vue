@@ -16,7 +16,7 @@
             @touchstart="onShortcutTouchStart"
         >
             <ul>
-                <li class="item" v-for="(item, index) in shortcutList" :key="index">
+                <li class="item" v-for="(item, index) in shortcutList" :key="index" :data-index="index">
                     {{item}}
                 </li>
             </ul>
