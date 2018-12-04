@@ -44,6 +44,7 @@ export default {
         onShortcutTouchStart(e) {
             let anchorIndex = getDate(e.target, 'index')
             console.log(anchorIndex)
+            // 点击 右侧 到指定位置
             this.$refs.listview.scrollToElement(this.$refs.listGroup[anchorIndex], 0)
         }
     },
