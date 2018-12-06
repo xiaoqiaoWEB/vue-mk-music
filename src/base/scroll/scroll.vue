@@ -51,6 +51,13 @@
                     probeType: this.probeType,
                     click: this.click
                 })
+
+                if (this.listenScroll) {
+                    let _this = this
+                    this.scroll.on('scroll', (pos) => {
+                        _this.$emit('scroll', pos)
+                    })
+                }
             },
             disable() {
                 this.scroll && this.scroll.disable()

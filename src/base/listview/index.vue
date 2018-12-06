@@ -1,5 +1,5 @@
 <template>
-    <scroll :data="data" class="listview" ref="listview">
+    <scroll @scroll="scroll" :data="data" class="listview" ref="listview" :listenScroll="listenScroll">
         <ul>
             <li v-for="(group,index) in data" :key="index" class="list-group" ref="listGroup">
                 <h2 class="list-group-title">{{group.title}}</h2>
@@ -14,6 +14,7 @@
         <div 
             class="list-shortcut"
             @touchstart="onShortcutTouchStart"
+            @touchmove.stop.prevent="onShortcutTouchMove"
         >
             <ul>
                 <li class="item" v-for="(item, index) in shortcutList" :key="index" :data-index="index">
@@ -26,7 +27,19 @@
 <script type="text/ecmascript-6">
 import Scroll from 'base/scroll/scroll.vue'
 import {getDate} from 'common/js/dom.js'
+
+const ANCHOR_HEIGHT = 18
+
 export default {
+    created() {
+        this.touch = {}
+        this.listenScroll = true
+    },
+    data() {
+        return {
+            scrollY: -1
+        }
+    },
     props: {
         data: {
             type: Array
@@ -43,9 +56,25 @@ export default {
     methods: {
         onShortcutTouchStart(e) {
             let anchorIndex = getDate(e.target, 'index')
-            console.log(anchorIndex)
+            // console.log(anchorIndex)
             // 点击 右侧 到指定位置
-            this.$refs.listview.scrollToElement(this.$refs.listGroup[anchorIndex], 0)
+            this.touch.y1 = e.touches[0].pageY
+            this.touch.anchorIndex = anchorIndex
+            this._scrollTo(anchorIndex)
+        },
+        onShortcutTouchMove(e) {
+           this.touch.y2 = e.touches[0].pageY
+           let delta = (this.touch.y2 - this.touch.y1) / ANCHOR_HEIGHT | 0
+           let anchorIndex = parseInt(this.touch.anchorIndex) + delta
+           this._scrollTo(anchorIndex)
+        },
+        scroll(pos) {
+            console.info(pos)
+            this.scrollY = pos.y
+        },
+        _scrollTo(index) {
+            // scrollToElement 第二个参数是 运动时间
+            this.$refs.listview.scrollToElement(this.$refs.listGroup[index], 0)
         }
     },
     components: {
