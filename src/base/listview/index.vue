@@ -88,6 +88,17 @@ export default {
             // console.info(pos.y)
         },
         _scrollTo(index) {
+            // 点击到 不是li 得时候
+            if (!index && index !== 0) {
+                return
+            }
+            if (index < 0) {
+                index = 0
+            } else if (index > this.lateHeight.length - 2) {
+                index = this.lateHeight.length - 2
+            }    
+            // 点击重置 scrollY
+            this.scrollY = -this.lateHeight[index]    
             // scrollToElement 第二个参数是 运动时间
             this.$refs.listview.scrollToElement(this.$refs.listGroup[index], 0)
         },
