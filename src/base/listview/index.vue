@@ -1,5 +1,11 @@
 <template>
-    <scroll @scroll="scroll" :data="data" class="listview" ref="listview" :listenScroll="listenScroll">
+    <scroll 
+    @scroll="scroll" 
+    :data="data" 
+    class="listview" 
+    ref="listview" 
+    :probeType= "probeType"
+    :listenScroll="listenScroll">
         <ul>
             <li v-for="(group,index) in data" :key="index" class="list-group" ref="listGroup">
                 <h2 class="list-group-title">{{group.title}}</h2>
@@ -17,7 +23,12 @@
             @touchmove.stop.prevent="onShortcutTouchMove"
         >
             <ul>
-                <li class="item" v-for="(item, index) in shortcutList" :key="index" :data-index="index">
+                <li 
+                class="item" 
+                :class="{'current': currentIndex === index}"
+                v-for="(item, index) in shortcutList" 
+                :key="index" 
+                :data-index="index">
                     {{item}}
                 </li>
             </ul>
@@ -33,11 +44,14 @@ const ANCHOR_HEIGHT = 18
 export default {
     created() {
         this.touch = {}
+        this.lateHeight = []
         this.listenScroll = true
+        this.probeType = 3
     },
     data() {
         return {
-            scrollY: -1
+            scrollY: -1,
+            currentIndex: 0
         }
     },
     props: {
@@ -69,12 +83,51 @@ export default {
            this._scrollTo(anchorIndex)
         },
         scroll(pos) {
-            console.info(pos)
+            // scrollY 是一个负值
             this.scrollY = pos.y
+            // console.info(pos.y)
         },
         _scrollTo(index) {
             // scrollToElement 第二个参数是 运动时间
             this.$refs.listview.scrollToElement(this.$refs.listGroup[index], 0)
+        },
+        _getLateHeight() {
+            this.lateHeight = []
+            const list = this.$refs.listGroup
+            let height = 0
+            this.lateHeight.push(height)
+            for (let i = 0; i < list.length; i++) {
+                let item = list[i]
+                height += item.clientHeight
+                this.lateHeight.push(height)
+            }
+        }
+    },
+    watch: {
+        data() {
+            setTimeout(() => {
+                this._getLateHeight()
+            }, 20)
+        },
+        scrollY(newY) {
+            const lateHeight = this.lateHeight
+             // 当滚动到顶部，newY>0
+            if (newY > 0) {
+                this.currentIndex = 0
+                return
+            } 
+            // 在中间部分
+            for (let i = 0; i < lateHeight.length - 1; i++) {
+                let height01 = lateHeight[i]
+                let height02 = lateHeight[i + 1]
+                if (-newY >= height01 && -newY < height02) {
+                    this.currentIndex = i
+                    console.log(this.currentIndex)
+                    return
+                }
+            }
+            // 当滚动到底部，且-newY大于最后一个元素的上限
+            this.currentIndex = lateHeight.length - 2
         }
     },
     components: {
