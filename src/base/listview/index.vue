@@ -33,6 +33,9 @@
                 </li>
             </ul>
         </div>
+        <div class="list-fixed" v-show="fixedTitle" ref="fixed">
+            <div class="fixed-title">{{fixedTitle}}</div>
+        </div>
     </scroll>
 </template>
 <script type="text/ecmascript-6">
@@ -40,6 +43,7 @@ import Scroll from 'base/scroll/scroll.vue'
 import {getDate} from 'common/js/dom.js'
 
 const ANCHOR_HEIGHT = 18
+const TITLE_HEIGHT = 30
 
 export default {
     created() {
@@ -51,7 +55,8 @@ export default {
     data() {
         return {
             scrollY: -1,
-            currentIndex: 0
+            currentIndex: 0,
+            diff: -1
         }
     },
     props: {
@@ -65,6 +70,12 @@ export default {
             return this.data.map((item) => {
                 return item.title.substr(0, 1)
             })
+        },
+        fixedTitle() {
+            if (this.scrollY > 0) {
+                return false
+            }
+            return this.data[this.currentIndex] ? this.data[this.currentIndex].title : ''
         }
     },
     methods: {
@@ -133,12 +144,21 @@ export default {
                 let height02 = lateHeight[i + 1]
                 if (-newY >= height01 && -newY < height02) {
                     this.currentIndex = i
-                    console.log(this.currentIndex)
+                    this.diff = height02 + newY
+                    // console.log(this.currentIndex)
                     return
                 }
             }
             // 当滚动到底部，且-newY大于最后一个元素的上限
             this.currentIndex = lateHeight.length - 2
+        },
+        diff(newVal) {
+            let fixedTop = (newVal > 0 && newVal < TITLE_HEIGHT) ? newVal - TITLE_HEIGHT : 0
+            if (this.fixedTop === fixedTop) {
+                return 
+            }
+            this.fixedTop = fixedTop
+            this.$refs.fixed.style.transform = `translate3d(0,${fixedTop}px,0)` 
         }
     },
     components: {
@@ -194,4 +214,16 @@ export default {
             font-size: $font-size-small     
             &.current
                 color $color-theme   
+    .list-fixed
+        position absolute
+        top 0
+        left 0
+        width 100%
+        .fixed-title
+            heihgt 30px
+            line-height 30px
+            padding-left 20px
+            font-size $font-size-small
+            color $color-text-l
+            background $color-highlight-background
 </style>
