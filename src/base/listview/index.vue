@@ -10,7 +10,11 @@
             <li v-for="(group,index) in data" :key="index" class="list-group" ref="listGroup">
                 <h2 class="list-group-title">{{group.title}}</h2>
                 <ul>
-                    <li class="list-group-item" v-for="(item,index) in group.items" :key="index">
+                    <li 
+                    class="list-group-item" 
+                    v-for="(item,index) in group.items" 
+                    @click="selectItem(item)"
+                    :key="index">
                         <img class="avatar" v-lazy="item.avatar">
                         <span class="name">{{item.name}}</span>
                     </li>
@@ -36,10 +40,14 @@
         <div class="list-fixed" v-show="fixedTitle" ref="fixed">
             <div class="fixed-title">{{fixedTitle}}</div>
         </div>
+        <div class="loading-container" v-show="!data.length">
+            <loading></loading>
+        </div>
     </scroll>
 </template>
 <script type="text/ecmascript-6">
 import Scroll from 'base/scroll/scroll.vue'
+import Loading from 'base/loading/loading.vue'
 import {getDate} from 'common/js/dom.js'
 
 const ANCHOR_HEIGHT = 18
@@ -79,6 +87,9 @@ export default {
         }
     },
     methods: {
+        selectItem(item) {
+            this.$emit('select', item)
+        },
         onShortcutTouchStart(e) {
             let anchorIndex = getDate(e.target, 'index')
             // console.log(anchorIndex)
@@ -162,7 +173,8 @@ export default {
         }
     },
     components: {
-        Scroll
+        Scroll,
+        Loading
     }
 }
 </script>
@@ -226,4 +238,9 @@ export default {
             font-size $font-size-small
             color $color-text-l
             background $color-highlight-background
+    .loading-container
+      position: absolute
+      width: 100%
+      top: 50%
+      transform: translateY(-50%)        
 </style>
