@@ -3,6 +3,7 @@ import 'babel-polyfill'
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import store from './store'
 /* 300mms延迟 */
 import fastClick from 'fastclick'
 
@@ -23,5 +24,6 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   render: h => h(App)
 })
