@@ -3,7 +3,7 @@
     <div class="back">
       <i class="icon-back"></i>
     </div>
-    <h1 class="title">rrrrr</h1>
+    <h1 class="title" v-html="title"></h1>
     <div class="bg-imgage">
       <div class="filter"></div>
     </div>
