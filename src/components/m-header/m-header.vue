@@ -22,6 +22,7 @@ export default {}
 
     .icon {
         display: inline-block;
+        // 设置元素的垂直对齐方式
         vertical-align: top;
         margin-top: 6px;
         width: 30px;
