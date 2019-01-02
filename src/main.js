@@ -10,6 +10,7 @@ import fastClick from 'fastclick'
 /* 图片懒加载 */ 
 import VueLazyload from 'vue-lazyload'
 
+/* 样式文件 */ 
 import 'common/stylus/index.styl'
 
 /* 300mms延迟 */

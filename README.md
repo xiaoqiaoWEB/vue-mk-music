@@ -48,7 +48,7 @@ ea6 api 的转译
 better-scroll
 (https://ustbhuangyi.github.io/better-scroll/doc/zh-hans/#better-scroll%20%E6%98%AF%E4%BB%80%E4%B9%88)
 
-> 02day
+>
 
 ``` bash
 #axios 接口的代理
