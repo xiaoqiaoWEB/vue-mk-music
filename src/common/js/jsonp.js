@@ -1,24 +1,25 @@
-import originJsonp from 'jsonp' // 原始的jsonp 
+import originJsonp from 'jsonp' 
 
 export default function jsonp(url, data, option) {
-   url += (url.indexOf('?') < 0 ? '?' : '&') + parme(data)
-   
-   return new Promise((resolve, reject) => {
+  url += (url.indexOf('?') < 0 ? '?' : '&') + parme(data)
+
+  return new Promise((resolve, reject) => {
     originJsonp(url, option, (err, data) => {
-        if (!err) {
-            resolve(data)   
-        } else {
-            reject(err)
-        }
+      if (!err) {
+        resolve(data)
+      } else {
+        reject(err)
+      }
     })
-   })
+  })
 } 
 
-export function parme(data) {
-    let url = ''
-    for (var k in data) {
-        let value = data[k] !== undefined ? data[k] : ''
-        url += '&' + k + '=' + encodeURIComponent(value)
-   }
-   return url ? url.substring(1) : ''
-} 
+function parme(data) {
+  let url = ''
+  for (var k in data) {
+    let value = data[k] !== undefined ? data[k] : ''
+    url += `&${k}=${encodeURIComponent(value)}`
+  }
+  return url ? url.substring(1) : ''
+}
+
