@@ -81,6 +81,9 @@
       this.slider.disable()
       clearTimeout(this.timer)
     },
+    destroyed() {
+      clearTimeout(this.timer)
+    },
     methods: {
       refresh() {
         if (this.slider) {

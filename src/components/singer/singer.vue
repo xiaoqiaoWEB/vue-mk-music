@@ -34,6 +34,7 @@ export default {
         _getSingerList() {
             getSingerList().then((res) => {
                 if (res.code === ERR_OK) {
+                    // console.info(res.data.list)
                     this.singers = this._normalizeSinger(res.data.list)
                     // console.info(this._normalizeSinger(res.data.list))
                 }
@@ -42,12 +43,12 @@ export default {
         // 规范数据
         _normalizeSinger(list) {
             let map = {
-                // 热门 数据
                 hot: { 
                     title: HOT_NAME,
                     items: []
                 }
             }
+            
             list.forEach((item, index) => {
                 if (index < HOT_SINGER_LEN) {
                     map.hot.items.push(new Singer({
