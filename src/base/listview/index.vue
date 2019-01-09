@@ -137,6 +137,7 @@ export default {
         height += item.clientHeight
         this.lateHeight.push(height)
       }
+      // console.log(this.lateHeight)
     }
   },
   watch: {
