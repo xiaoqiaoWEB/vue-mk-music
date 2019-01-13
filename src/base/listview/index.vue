@@ -103,6 +103,7 @@ export default {
     },
     onShortcutTouchMove(e) {
       this.touch.y2 = e.touches[0].pageY
+      // 向下取整
       let delta = ((this.touch.y2 - this.touch.y1) / ANCHOR_HEIGHT) | 0
       let anchorIndex = parseInt(this.touch.anchorIndex) + delta
       this._scrollTo(anchorIndex)
