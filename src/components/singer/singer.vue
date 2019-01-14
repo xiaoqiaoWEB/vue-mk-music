@@ -85,7 +85,8 @@ export default {
             return hot.concat(ret)
         },
         ...mapMutations({
-            setSinger: 'SET_SINGER'
+            // this.$store.commit
+            setSinger: 'SET_SINGER' 
         })
     },
     components: {
