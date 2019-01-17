@@ -10,7 +10,6 @@
     bottom: 0
     z-index 150
     background: $color-background
-
     .background
       position: absolute
       left: 0
@@ -104,10 +103,18 @@
           i
             font-size: 40px
         .i-right
-          text-align: left        
-
-
-
+          text-align: left   
+    &.screenPlay-enter-active, &.screenPlay-leave-active
+      transition: all 0.4s
+      .top, .bottom
+        transition: all 0.4s cubic-bezier(0.86, 0.18, 0.82, 1.32)
+    &.screenPlay-enter-to, &.screenPlay-leave-to
+      opacity: 0
+      .top
+        transform: translate3d(0, -100px, 0)   
+      .bottom
+        transform: translate3d(0, 100px, 0)  
+        
   .minin-player
     display: flex
     align-items: center
@@ -117,3 +124,44 @@
     width: 100%
     height: 60px
     background: $color-highlight-background  
+    &.mini-enter-active, &.mini-leave-active
+      transition: all 0.4s
+    &.mini-enter-to, &.mini-leave-to
+      opacity: 0
+    .icon
+      flex: 0 0 40px
+      width: 40px
+      height: 40px
+      padding: 0 10px 0 20px
+    .text
+      display: flex
+      flex-direction: column
+      justify-content: center
+      flex: 1
+      line-height: 20px
+      overflow: hidden
+      .name
+        no-wrap()
+        font-size: $font-size-medium
+        color: $color-text
+        margin-bottom: 2px
+      .desc
+        no-wrap()
+        font-size: $font-size-small
+        color: $color-text-d  
+    .control
+      flex: 0 0 30px
+      width: 30px
+      padding: 0 10px
+      .icon-play-mini, .icon-pause-mini, .icon-playlist
+        font-size: 30px
+        color: $color-theme-d    
+      .icon-mini
+        font-size: 32px
+        // position: absolute
+        left: 0
+        top: 0    
+
+
+
+
