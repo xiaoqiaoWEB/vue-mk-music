@@ -80,11 +80,30 @@
               box-sizing: border-box
               border-radius: 50%
               border: 10px solid rgba(255, 255, 255, 0.1)
-
+              &.play
+                animation: rotate 20s linear infinite
     .bottom
       position: absolute
       bottom: 50px
       width: 100%
+      .progress-wrapper
+        display: flex
+        align-items: center
+        width: 80%
+        margin: 0 auto
+        padding: 10px 0
+        .time
+          color: $color-text
+          font-size: $font-size-small
+          flex: 0 0 30px
+          line-height: 30px
+          heihgt: 30px
+          &.time-l
+            text-align: left
+          &.time-r
+            text-align: right
+        .progress-bar-wrapper
+          flex: 1      
       .operators
         display: flex
         align-items: center
@@ -162,6 +181,10 @@
         left: 0
         top: 0    
 
-
+@keyframes rotate
+  0%
+    transform: rotate(0)
+  100%
+    transform: rotate(360deg)  
 
 
