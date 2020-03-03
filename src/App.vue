@@ -1,14 +1,14 @@
 <template>
   <div id="app">
-    app
+    App
   </div>
 </template>
 
 <script type="text/ecmascript-6">
 
-
 export default {
   components: {
+
   }
 }
 </script>

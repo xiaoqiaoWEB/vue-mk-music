@@ -11,7 +11,7 @@ import fastClick from 'fastclick'
 // import VueLazyload from 'vue-lazyload'
 
 /* 样式文件 */ 
-// import 'common/stylus/index.styl'
+import 'common/stylus/index.styl'
 
 /* 300mms延迟 */
 fastClick.attach(document.body)
