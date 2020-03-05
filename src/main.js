@@ -8,16 +8,17 @@ import router from './router'
 import fastClick from 'fastclick'
 
 /* 图片懒加载 */ 
-// import VueLazyload from 'vue-lazyload'
+import VueLazyload from 'vue-lazyload'
 
 /* 样式文件 */ 
 import 'common/stylus/index.styl'
 
 /* 300mms延迟 */
 fastClick.attach(document.body)
-// Vue.use(VueLazyload, {
-//   loading: require('common/image/default.png')
-// })
+
+Vue.use(VueLazyload, {
+  loading: require('common/image/default.png')
+})
 
 Vue.config.productionTip = false
 
